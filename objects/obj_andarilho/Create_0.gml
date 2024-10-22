@@ -1,0 +1,9 @@
+vida = 30;
+vspd = 0;
+hspd = 0;
+vel = 0.25;
+dir = choose(-1, 1);
+hit_box = 0;
+alpha = 1;
+hit = true;
+estado = 0;

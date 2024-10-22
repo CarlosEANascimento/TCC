@@ -1,0 +1,1 @@
+audio_play_sound(snd_pulo_aterrisa, 1, 0);

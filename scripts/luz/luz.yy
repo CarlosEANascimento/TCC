@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"luz",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"luz",
+  "parent":{
+    "name":"LUZ",
+    "path":"folders/LUZ.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

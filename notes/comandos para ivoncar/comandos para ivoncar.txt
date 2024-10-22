@@ -1,0 +1,8 @@
+ctrl + 0 -> andarilho
+ctrl + 1 -> ceifador
+ctrl + 2 -> curandeiro bubonico (mini boss)
+ctrl + 3 -> mestre da peste
+ctrl + 4 -> geleia
+ctrl + 5 -> experiencia
+ctrl + 6 -> poção de cura
+ctrl + 7 -> ponto de vida

@@ -1,0 +1,380 @@
+inMenu = false;
+windowLarg = display_get_gui_width();
+windowAlt = display_get_gui_height();
+
+if !obj_Menu.inConfig{
+	switch obj_Menu.i{
+		#region -> OPC NOVO JOGO
+		case 1: //NOVO JOGO
+			draw_set_color(c_black);
+			draw_set_alpha(0.75);
+			draw_rectangle(0,0,windowLarg,windowAlt,0);
+			draw_set_alpha(1);
+			draw_set_color(c_white);
+			draw_rectangle(windowLarg/2-101,windowAlt/2-21,windowLarg/2+101,windowAlt/2+21,0);
+			draw_set_color(c_black);
+			draw_rectangle(windowLarg/2-100,windowAlt/2-20,windowLarg/2+100,windowAlt/2+20,0);
+			draw_set_color(c_white);
+			draw_set_font(f_Texto);
+			draw_text(windowLarg/2-string_width("Nome do novo jogo")/2,windowAlt/2-20-string_height("Nome do novo jogo"),"Nome do novo jogo");
+			if string_length(saveName) >= 15{ keyboard_string = string_delete(saveName,string_length(saveName)-1,1); }
+			saveName = keyboard_string;
+			draw_text(windowLarg/2-string_width(saveName)/2,windowAlt/2-string_height(saveName)/2,saveName);
+			draw_set_font(f_TextoDica);
+			draw_text(windowLarg/2-101,windowAlt/2+21,"Max. 15 letras");
+			if !canSave{
+				draw_set_color(c_red);
+				draw_text(windowLarg/2-string_width("Já há um save com esse nome")/2,windowAlt/2+21+string_height("Max. 15 letras"),"Já há um save com esse nome");
+			}
+			if keyboard_check_pressed(vk_enter) and string_length(saveName) > 0{
+				for(var i = 1; i <= LoadQtdeSaves(); i++){
+					if(LoadSaveNames(i) == saveName){
+						canSave = false;
+						break;
+					}
+					canSave = true;
+					continue;
+				}
+				if canSave{
+					SaveSaveNames(saveName);
+					global.saveName = saveName;
+					room_instance_add(Fase1,50,50,obj_Player);
+					room_goto_next();
+				}
+			}
+		break;
+		#endregion
+		#region -> OPC JOGO SALVO
+		case 2:
+			draw_set_color(c_black);
+			draw_set_alpha(0.75);
+			draw_rectangle(0,0,windowLarg,windowAlt,0);
+			draw_set_alpha(1);
+			draw_set_color(c_white);
+			draw_rectangle(windowLarg/2-151,windowAlt/2-31,windowLarg/2+151,windowAlt/2+31,0);
+			draw_set_color(c_black);
+			draw_rectangle(windowLarg/2-150,windowAlt/2-30,windowLarg/2+150,windowAlt/2+30,0);
+		
+			draw_set_color(c_white);
+			if o-1 > 0{
+				draw_set_font(f_Texto)
+				draw_text(
+				windowLarg/2-string_width(string_upper(LoadSaveNames(o)))/2-string_width(" < ")-sin(u*0.2),
+				windowAlt/2-string_height(" < ")/2,
+				" < "
+				);
+			}
+			draw_set_font(f_Texto);
+			draw_text(
+				windowLarg/2-string_width(string_upper(LoadSaveNames(o)))/2,
+				windowAlt/2-string_height(string_upper(LoadSaveNames(o)))/2,
+				string_upper(LoadSaveNames(o))
+			);
+			if o+1 <= LoadQtdeSaves(){
+				draw_set_font(f_Texto)
+				draw_text(
+				windowLarg/2+(string_width(string_upper(LoadSaveNames(o)))/2)+sin(u*0.2),
+				windowAlt/2-string_height(" > ")/2,
+				" > "
+				);
+			}
+		
+			if keyboard_check_pressed(vk_right) and o+1 <= LoadQtdeSaves(){
+				o++;
+			}else if keyboard_check_pressed(vk_left) and o-1 > 0{
+				o--;
+			}
+		
+			if keyboard_check_pressed(vk_enter){
+				room_instance_add(Fase1,50,50,obj_Player);
+				ini_open(LoadSaveNames(o)+".sav");
+				room_goto(ini_read_real("PLAYER","sala",0));
+				ini_close();
+				global.saveName = LoadSaveNames(o);
+			}
+		break;
+		#endregion
+		#region -> OPC CREDITOS
+		case 4:
+			draw_set_color(c_black);
+			draw_set_alpha(0.75);
+			draw_rectangle(0,0,windowLarg,windowAlt,0);
+			draw_set_alpha(1);
+			draw_set_color(c_white);
+			draw_set_font(f_Texto);
+			draw_text(windowLarg/2-string_width("Ariel")/2,windowAlt/2+string_height("Ariel")*-2.5,"Ariel");
+			draw_text(windowLarg/2-string_width("Caio")/2,windowAlt/2+string_height("Caio")*-1.5,"Caio");
+			draw_text(windowLarg/2-string_width("Caio")/2,windowAlt/2+string_height("Caio")*-0.5,"Caio");
+			draw_text(windowLarg/2-string_width("Carlos")/2,windowAlt/2+string_height("Carlos")/2,"Carlos");
+			draw_text(windowLarg/2-string_width("Edson")/2,windowAlt/2+string_height("Edson")*1.5,"Edson");
+			draw_text(windowLarg/2-string_width("Juliany")/2,windowAlt/2+string_height("Juliany")*2.5,"Juliany");
+			draw_text(windowLarg/2-string_width("Miguel")/2,windowAlt/2+string_height("Miguel")*3.5,"Miguel");
+		break;
+		#endregion
+		#region -> OPC SAIR
+		case 5:
+			game_end();
+		break;
+		#endregion
+	}
+}else{
+	switch obj_Menu.o{
+		#region -> OPC CONFIGURAÇÕES
+		case 1:
+			draw_set_color(c_black);
+			draw_set_alpha(0.75);
+			draw_rectangle(0,0,windowLarg,windowAlt,0);
+			draw_set_alpha(1);
+			draw_set_color(c_white);
+			draw_rectangle(windowLarg/2-151,windowAlt/2-101,windowLarg/2+151,windowAlt/2+101,0);
+			draw_set_color(c_black);
+			draw_rectangle(windowLarg/2-150,windowAlt/2-100,windowLarg/2+150,windowAlt/2+100,0);
+			draw_set_color(c_white);
+			draw_set_font(f_Texto);
+		
+			draw_text(windowLarg/2-string_width("Use o scroll do mouse para navegar")/2,windowAlt/2-100-string_height("Use o scroll do mouse para navegar"),"Use o scroll do mouse para navegar");
+		
+			draw_set_alpha((o==1)?sin(u*0.2):1);
+			var colAEsq = (o==1)?make_color_rgb(255,255,255):make_color_rgb(150,150,150);
+			draw_set_color(colAEsq);
+			var txtAEsq = (o==1)?"> a. Esquerda: ":"a. Esquerda: ";
+			var txtAEsqAlt = string_height("> a. Esquerda: ");
+			var txtAEsqLarg = string_width(txtAEsq);
+			draw_text(windowLarg/2-148,windowAlt/2-100,txtAEsq);
+			draw_text(windowLarg/2-148+txtAEsqLarg,windowAlt/2-100,LoadControlButton("aEsq"));
+		
+			draw_set_alpha((o==2)?sin(u*0.2):1);
+			var colADir = (o==2)?make_color_rgb(255,255,255):make_color_rgb(150,150,150);
+			draw_set_color(colADir);
+			var txtADir = (o==2)?"> a. Direita: ":"a. Direira: ";
+			var txtADirAlt = string_height("> a. Direira: ");
+			var txtADirLarg = string_width(txtADir);
+			draw_text(windowLarg/2-148,windowAlt/2-100+txtAEsqAlt,txtADir);
+			draw_text(windowLarg/2-148+txtADirLarg,windowAlt/2-100+txtAEsqAlt,LoadControlButton("aDir"));
+		
+			draw_set_alpha((o==3)?sin(u*0.2):1);
+			var colPular = (o==3)?make_color_rgb(255,255,255):make_color_rgb(150,150,150);
+			draw_set_color(colPular);
+			var txtPular = (o==3)?"> Pular: ":"Pular: ";
+			var txtPularAlt = string_height("> Pular: ");
+			var txtPularLarg = string_width(txtPular);
+			draw_text(windowLarg/2-148,windowAlt/2-100+txtADirAlt*2,txtPular);
+			draw_text(windowLarg/2-148+txtPularLarg,windowAlt/2-100+txtADirAlt*2,LoadControlButton("Pula"));
+		
+			draw_set_alpha((o==4)?sin(u*0.2):1);
+			var colDash = (o==4)?make_color_rgb(255,255,255):make_color_rgb(150,150,150);
+			draw_set_color(colDash);
+			var txtDash = (o==4)?"> Dash: ":"Dash: ";
+			var txtDashAlt = string_height("> Dash: ");
+			var txtDashLarg = string_width(txtDash);
+			draw_text(windowLarg/2-148,windowAlt/2-100+txtPularAlt*3,txtDash);
+			draw_text(windowLarg/2-148+txtDashLarg,windowAlt/2-100+txtPularAlt*3,LoadControlButton("Dash"));
+		
+			draw_set_alpha((o==5)?sin(u*0.2):1);
+			var colAtq1 = (o==5)?make_color_rgb(255,255,255):make_color_rgb(150,150,150);
+			draw_set_color(colAtq1);
+			var txtAtq1 = (o==5)?"> Ataque 1: ":"Ataque 1: ";
+			var txtAtq1Alt = string_height("> Ataque 1: ");
+			var txtAtq1Larg = string_width(txtAtq1);
+			draw_text(windowLarg/2-148,windowAlt/2-100+txtDashAlt*4,txtAtq1);
+			draw_text(windowLarg/2-148+txtAtq1Larg,windowAlt/2-100+txtDashAlt*4,LoadControlButton("Atq1"));
+		
+			draw_set_alpha((o==6)?sin(u*0.2):1);
+			var colAtq2 = (o==6)?make_color_rgb(255,255,255):make_color_rgb(150,150,150);
+			draw_set_color(colAtq2);
+			var txtAtq2 = (o==6)?"> Ataque 2: ":"Ataque 2: ";
+			var txtAtq2Larg = string_width(txtAtq2);
+			draw_text(windowLarg/2-148,windowAlt/2-100+txtAtq1Alt*5,txtAtq2);
+			draw_text(windowLarg/2-148+txtAtq2Larg,windowAlt/2-100+txtAtq1Alt*5,LoadControlButton("Atq2"));
+		
+			draw_set_color(c_white);
+			draw_set_alpha(1);
+			draw_set_font(f_TextoDica);
+			draw_text(windowLarg/2-string_width("Aperte 'esc' para voltar")/2,windowAlt/2+102,"Aperte 'esc' para voltar");
+		
+			if keyboard_check_pressed(vk_anykey) and !keyboard_check_pressed(vk_escape){
+				switch o{
+					case 1:
+						global.kAndarEsq = keyboard_lastkey;
+						SaveControlScript("aEsq",global.kAndarEsq);
+					break;
+					case 2:
+						global.kAndarDir = keyboard_lastkey;
+						SaveControlScript("aDir",global.kAndarDir);
+					break;
+					case 3:
+						global.kPular = keyboard_lastkey;
+						SaveControlScript("Pula",global.kPular);
+					break;
+					case 4:
+						global.kDash = keyboard_lastkey;
+						SaveControlScript("Dash",global.kDash);
+					break;
+					case 5:
+						global.kAtaque1 = keyboard_lastkey;
+						SaveControlScript("Atq1",global.kAtaque1);
+					break;
+					case 6:
+						global.kAtaque2 = keyboard_lastkey;
+						SaveControlScript("Atq2",global.kAtaque2);
+					break;
+				}
+			}
+		
+			if mouse_wheel_down(){
+				o++;
+			}else if mouse_wheel_up(){
+				o--;
+			}
+
+			if o < 1{ o = 6; }
+			if o > 6{ o = 1; }
+		break;
+		#endregion
+		#region -> OPC VOLUME
+		case 2:
+		draw_set_color(c_black);
+		draw_set_alpha(0.75);
+		draw_rectangle(0,0,windowLarg,windowAlt,0);
+		draw_set_alpha(1);
+		draw_set_color(c_white);
+		draw_rectangle(windowLarg/2-125,windowAlt/2-33,windowLarg/2+125,windowAlt/2+33,0);
+		draw_set_color(c_black);
+		draw_rectangle(windowLarg/2-124,windowAlt/2-32,windowLarg/2+124,windowAlt/2+32,0);
+	
+		draw_set_color(c_white);
+		draw_set_font(f_TextoDica);
+		draw_text(windowLarg/2-string_width("Use as seta de esquerda e direita")/2,windowAlt/2-33-string_height("Use as seta de esquerda e direita"),"Use as seta de esquerda e direita");
+	
+		draw_set_font(f_Texto);
+		var volStr = string(global.volume);
+		var volAlt = string_height(volStr);
+		var volLarg = string_width(volStr);
+	
+		draw_set_color(make_color_rgb(70,70,70));
+		draw_rectangle(windowLarg/2-50,windowAlt/2-volAlt/2-4,windowLarg/2-50+global.volume,windowAlt/2+volAlt/2+4,0);
+	
+		draw_set_font(f_Texto);
+		draw_set_color(c_white);
+		draw_text(windowLarg/2-volLarg/2,windowAlt/2-volAlt/2,volStr);
+	
+		draw_set_font(f_TextoDica);
+		draw_set_color(c_white);
+		draw_text(windowLarg/2-string_width("Aperte 'esc' para voltar")/2,windowAlt/2+33,"Aperte 'esc' para voltar");
+	
+		if keyboard_check(vk_right) and global.volume + 1 <= 100{
+			global.volume += 1;
+			SaveVolume();
+		}else if keyboard_check(vk_left) and global.volume - 1 >= 0{
+			global.volume -= 1;
+			SaveVolume();
+		}
+		break;
+		#endregion
+	}
+}
+
+if keyboard_check_pressed(vk_escape){ instance_destroy();}
+u++;
+
+//-> SAVE/LOAD GAME
+function SaveScript(){
+	var saveName = string(global.saveName)+".sav";
+	
+	if file_exists(saveName){
+		file_delete(saveName);
+	}
+	
+	ini_open(saveName);
+	ini_write_real("PLAYER","xx",obj_Player.x);
+	ini_write_real("PLAYER","yy",obj_Player.y);
+	ini_write_real("PLAYER","vida",global.plrVida);
+	ini_write_real("PLAYER","sala",room);
+	ini_close();
+}
+
+function LoadScript(){
+	var saveName = global.saveName+".sav";
+	ini_open(saveName);
+	obj_Player.x = ini_read_real("PLAYER","xx",obj_Player.x);
+	obj_Player.y = ini_read_real("PLAYER","yy",obj_Player.y);
+	global.plrVida = ini_read_real("PLAYER","vida",global.plrVida);
+	room_goto(ini_read_real("PLAYER","sala",0));
+	if instance_exists(obj_SaveLamp){ obj_SaveLamp.estate = false; }
+	ini_close();
+}
+
+//SAVE/LOAD CONTROLS
+function SaveControlScript(button,variavel){
+	ini_open("controls");
+	ini_write_string("CONTROL",button,constantToString(variavel));
+	ini_close();
+}
+
+function LoadControlsScript(){
+	if file_exists("controls"){
+		ini_open("controls");
+		global.kAndarEsq = ini_read_string("CONTROL","aEsq","A");
+		global.kAndarDir = ini_read_string("CONTROL","aDir","D");
+		global.kPular = ini_read_string("CONTROL","Pula","Espaço");
+		global.kDash = ini_read_string("CONTROL","Dash","Ctrl");
+		global.kAtaque1 = ini_read_string("CONTROL","Atq1","Q");
+		global.kAtaque2 = ini_read_string("CONTROL","Atq2","R");
+		ini_close();
+	}else{
+		ini_open("controls");
+		ini_write_string("CONTROL","aEsq","A");
+		ini_write_string("CONTROL","aDir","D");
+		ini_write_string("CONTROL","Pula","Espaço");
+		ini_write_string("CONTROL","Dash","Ctrl");
+		ini_write_string("CONTROL","Atq1","Q");
+		ini_write_string("CONTROL","Atq2","E");
+		ini_close();
+	}
+}
+
+function LoadControlButton(button){
+	ini_open("controls");
+	return ini_read_string("CONTROL",button,"NONE");
+	ini_close();
+}
+
+function LoadButton(control){
+	ini_open("controls");
+	return stringToConstant(ini_read_string("CONTROL",control,"NONE"));
+	ini_close();
+}
+
+//SAVE/LOAD SAVE NAMES AND VOLUME
+function SaveSaveNames(SaveName){
+	ini_open("SaveNames");
+	var num = round(real(ini_read_string("QTDESAVES","num","0")));
+	
+	ini_write_string("SAVENAMES",string(num+1),SaveName);
+	ini_write_string("QTDESAVES","num",string(num+1));
+	ini_close();
+}
+
+function LoadSaveNames(idSave){
+	ini_open("SaveNames");
+	return ini_read_string("SAVENAMES",string(idSave),"NÂO HÁ JOGOS SALVOS");
+	ini_close();
+}
+
+function LoadQtdeSaves(){
+	ini_open("SaveNames");
+	return round(real(ini_read_string("QTDESAVES","num","1")));
+	ini_close();
+}
+
+function SaveVolume(){
+	ini_open("SaveNames");
+	ini_write_real("VOLUME","VOLUME",global.volume);
+	ini_close();
+}
+
+function LoadVolume(){
+	ini_open("SaveNames");
+	return round(ini_read_real("VOLUME","VOLUME",50));
+	ini_close();
+}

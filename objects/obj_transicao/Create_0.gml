@@ -1,0 +1,9 @@
+alpha = 0;
+done = false;
+action = true;
+pos_action = 0;
+pts_habilidade = instance_number(obj_ponto_habilidade);
+global.interagindo = true;
+//tempVolAmb = 0;
+//tempVolTrilha = 0;
+//tempVolSfx = 0;

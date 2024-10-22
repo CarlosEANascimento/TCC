@@ -1,0 +1,2 @@
+randomize();
+inimigo = 0;

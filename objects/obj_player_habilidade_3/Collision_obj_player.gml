@@ -1,0 +1,1 @@
+if( etapa == 6 ) instance_destroy();

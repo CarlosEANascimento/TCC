@@ -1,0 +1,1 @@
+other.vida -= 20 - (20 * global.nvl_defesa/50);

@@ -1,0 +1,1 @@
+global.mascara_sala = make_color_rgb(255, 200, 225);
