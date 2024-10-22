@@ -1,8 +1,8 @@
-# TCC do curso Técnico Integrado ao Médio da Etec João Belarmino
+  # TCC do curso Técnico Integrado ao Médio da Etec João Belarmino
 Um jogo 2D desenvolvido na engine Game Maker Studio 2 com a linguagem GML.
 
 ## Nota:
-Devido à minha falta de conhecimento sobre Git e GitHub na época, tais tecnologias não foram utilizadas para o backup do projeto. Por conta disso, o projeto disponível não contém a versão final. Caso queira experimentar a versão final do que foi desenvolvido, recomendo o executável que está disponível na branch [executavel]([https://pip.pypa.io/en/stable/](https://github.com/CarlosEANascimento/TCC/tree/executavel)).
+Devido à minha falta de conhecimento sobre Git e GitHub na época, tais tecnologias não foram utilizadas para o backup do projeto. Por conta disso, o projeto disponível não contém a versão final. Caso queira experimentar a versão final do que foi desenvolvido, recomendo o executável que está disponível na branch [executavel](https://github.com/CarlosEANascimento/TCC/tree/executavel).
 
 ## Sobre o desenvolvimento:
 O projeto foi desenvolvido por cinco pessoas, onde atuei como o único programador, com o auxílio de mais dois membros (que contribuíram com os assets de personagens e trilhas sonoras). A escolha da engine se deu por diversos motivos, sendo o principal o fato de o Game Maker Studio 2 ter uma interface simples e intuitiva, além de uma linguagem de fácil entendimento — algo essencial, considerando que era a primeira vez que qualquer um do grupo estava desenvolvendo um jogo.
